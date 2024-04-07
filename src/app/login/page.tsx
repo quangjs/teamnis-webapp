@@ -45,7 +45,8 @@ export default function Login() {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
       const user = result.user;
-      console.log('------', {token, user})
+      // send auth to BE
+      
     } catch (error: any) {
       // Handle Errors here.
       const errorCode = error.code;

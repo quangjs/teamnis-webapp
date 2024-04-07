@@ -4,9 +4,9 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCFgZFACsZXCqdbQ50jWxj7Wsh3gH8unfI',
-  authDomain: 'teamnis-95982.firebaseapp.com',
-  projectId: 'teamnis-95982',
+  apiKey: process.env.FIREBASE_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
