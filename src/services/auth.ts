@@ -9,9 +9,13 @@ export async function emailLogin(params: {email: string, password: string}) {
   return []
 }
 
-export async function verifySSO(params: { platform: string, token: string }) {
+export async function firebaseGoogleLogin(params: { token: string }) {
   // send to verifying SSO token
-  const response = await request.post(`${API_URL}/auth/sso`, { params })
+  const response = await request.post(`${API_URL}/auth/google`, {
+    headers: {
+      'firebase-token': params.token
+    }
+  })
   if (response.data?.length) {
     return response.data[0].data || []
   }
