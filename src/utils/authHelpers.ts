@@ -1,10 +1,12 @@
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { SignJWT, jwtVerify } from "jose"
+import { cookies } from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
+import bcrypt from "bcryptjs"
 
 const secretKey = "secret"; // Load ENV
 const key = new TextEncoder().encode(secretKey);
 const expirationTime= 10 // minutes
+const saltOrRounds = bcrypt.genSaltSync(10);
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
@@ -56,4 +58,13 @@ export async function updateSessionMiddleware(request: NextRequest) {
     expires: parsed.expires,
   });
   return res;
+}
+
+export async function hashPassword(password: string) {
+  return await bcrypt.hash(password, saltOrRounds)
+}
+
+export async function isMatchPassword(password: string, hashPassword: string) {
+  const hash = await bcrypt.hash(password, saltOrRounds);
+  return bcrypt.compare(hashPassword, hash)
 }

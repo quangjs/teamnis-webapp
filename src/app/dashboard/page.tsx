@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSession, logout } from "@/utils/authHelper";
+import { getSession, logout } from "@/utils/authHelpers";
 
 export default async function Dashboard() {
   const session = await getSession();

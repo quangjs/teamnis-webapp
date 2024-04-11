@@ -1,0 +1,41 @@
+version: '3.5'
+
+services:
+
+  # MySQL database service
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: teamnis
+    ports:
+      - "3366:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # Next.js app service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Map container port 3000 to host port 3000
+    environment:
+      - NODE_ENV=development  # Set NODE_ENV to 'production'
+    depends_on:
+      - db  # Depend on the 'db' service
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

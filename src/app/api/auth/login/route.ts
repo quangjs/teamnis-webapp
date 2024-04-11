@@ -1,4 +1,4 @@
-import { login } from "@/utils/authHelper"
+import { login } from "@/utils/authHelpers"
 
 export async function POST(
   req: Request,

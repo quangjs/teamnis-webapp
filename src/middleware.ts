@@ -1,4 +1,4 @@
-import { getSession, updateSessionMiddleware } from '@/utils/authHelper'
+import { getSession, updateSessionMiddleware } from '@/utils/authHelpers'
 import { NextResponse, NextRequest } from 'next/server'
  
 // This function can be marked `async` if using `await` inside
