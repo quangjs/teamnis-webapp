@@ -23,7 +23,7 @@ export async function decrypt(input: string): Promise<any> {
   return payload;
 }
 
-export async function login(user: any) {
+export async function createSession(user: any) {
   const expires = new Date(Date.now() + expirationTime * 60 * 1000);
   const data = { user, expires };
   const session = await encrypt({ user, expires });
@@ -32,7 +32,7 @@ export async function login(user: any) {
   return data;
 }
 
-export async function logout() {
+export async function destroySession() {
   // Destroy the session
   cookies().set("session", "", { expires: new Date(0) });
 }
@@ -65,6 +65,5 @@ export async function hashPassword(password: string) {
 }
 
 export async function isMatchPassword(password: string, hashPassword: string) {
-  const hash = await bcrypt.hash(password, saltOrRounds);
-  return bcrypt.compare(hashPassword, hash)
+  return bcrypt.compare(password, hashPassword)
 }

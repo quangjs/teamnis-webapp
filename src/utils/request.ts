@@ -9,4 +9,4 @@ export const request = axios.create({
   }
 })
 
-export const API_URL = process.env.API_DOMAIN || window.location.origin;
+export const API_URL = process.env.API_DOMAIN || '';

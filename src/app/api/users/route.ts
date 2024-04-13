@@ -20,7 +20,7 @@ export async function POST(
     }
     // insert into db
     const verifyToken = uuidv4()
-    const hashPass= await hashPassword(body.password)
+    const hashPass = await hashPassword(body.password)
     const data = {
       ...body,
       verifyToken,
@@ -33,7 +33,6 @@ export async function POST(
   
     return Response.json({ user: userInfo })
   } catch(error) {
-    console.log('-----', error)
     return new Response('server error', { status: 500 });
   }
 }

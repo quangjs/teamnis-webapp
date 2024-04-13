@@ -12,7 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { auth, googleProvider } from '@/utils/firebaseConfig';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
+import { useLoginEmail } from '@/hooks/useAuth';
+import { TErrorMessage } from '@/utils/errorHelpers';
 import { redirect } from 'next/navigation';
 // import { useGoogleLogin } from '@/hooks/useAuth';
 
@@ -30,21 +32,26 @@ function Copyright(props: any) {
 }
 
 export default function FormLogin() {
-  
-  const handleSignInEmail = async (e: FormEvent<HTMLFormElement>) => {
+  const [error, setError] = useState<TErrorMessage | null>(null)
+  const { mutateAsync: login, isPending: loginning } = useLoginEmail()
+
+  const handleSignInEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const email = formData.get('email')
-    const password = formData.get('password')
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-    const resData = await response.json()
-    if (resData?.success) {
-      window.location.replace('/dashboard')
-    }
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+    const data = login({ email, password })
+      .then((data) => {
+        if (data?.success) {
+          window.location.replace('/dashboard')
+          setError(null)
+        }
+      })
+      .catch((err) => {
+        if (err.response?.data) {
+          setError(err.response.data)
+        }
+      })
   }
 
   const handleSignInGoogle = async () => {
@@ -114,15 +121,17 @@ export default function FormLogin() {
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
+        { error ? <Typography color="error">* {error.code}: {error.message}</Typography> : null}
         <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          disabled={loginning}
         >
-          Sign In
+          { loginning ? 'Submitting' : 'Sign In' }
         </Button>
-        <Button onClick={handleSignInGoogle}>
+        <Button disabled={loginning} onClick={handleSignInGoogle}>
           Sign In with Google
         </Button>
         <Grid container>

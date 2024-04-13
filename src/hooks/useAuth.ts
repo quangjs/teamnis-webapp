@@ -1,9 +1,15 @@
-import { emailLogin, firebaseGoogleLogin } from "@/services/auth"
+import { loginEmail, firebaseGoogleLogin, registerEmail } from "@/services/auth"
 import { useMutation, useQueries } from "@tanstack/react-query"
 
-export function useEmailLogin() {
+export function useRegisterEmail() {
   return useMutation({
-    mutationFn: emailLogin
+    mutationFn: registerEmail
+  })
+}
+
+export function useLoginEmail() {
+  return useMutation({
+    mutationFn: loginEmail
   })
 }
 

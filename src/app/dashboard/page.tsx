@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSession, logout } from "@/utils/authHelpers";
+import { getSession, destroySession } from "@/utils/authHelpers";
 
 export default async function Dashboard() {
   const session = await getSession();
@@ -10,8 +10,8 @@ export default async function Dashboard() {
       <form
         action={async () => {
           "use server";
-          await logout();
-          redirect("/");
+          await destroySession();
+          redirect("/login");
         }}
       >
         <button type="submit">Logout</button>

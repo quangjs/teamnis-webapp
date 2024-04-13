@@ -1,10 +1,17 @@
-import {request, API_URL} from './request'
+import {request, API_URL} from '@/utils/request'
 
-export async function emailLogin(params: {email: string, password: string}) {
-  // login with email/pass
-  const response = await request.post(`${API_URL}/auth/login`, { params })
-  if (response.data?.length) {
-    return response.data[0].data || []
+export async function registerEmail(params: {name: string, email: string, password: string}) {
+  const response = await request.post(`${API_URL}/api/users`, params)
+  if (response.data) {
+    return response.data || {}
+  }
+  return []
+}
+
+export async function loginEmail(params: {email: string, password: string}) {
+  const response = await request.post(`${API_URL}/api/auth/login`, params)
+  if (response.data) {
+    return response.data || {}
   }
   return []
 }
