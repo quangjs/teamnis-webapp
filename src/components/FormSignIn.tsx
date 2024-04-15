@@ -8,30 +8,16 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { auth, googleProvider } from '@/utils/firebaseConfig';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { FormEvent, useState } from 'react';
 import { useLoginEmail } from '@/hooks/useAuth';
 import { TErrorMessage } from '@/utils/errorHelpers';
-import { redirect } from 'next/navigation';
+import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 // import { useGoogleLogin } from '@/hooks/useAuth';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://teamnis.com/">
-        teamnis.com
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-export default function FormLogin() {
+export default function FormSignIn() {
   const [error, setError] = useState<TErrorMessage | null>(null)
   const { mutateAsync: login, isPending: loginning } = useLoginEmail()
 
@@ -91,10 +77,10 @@ export default function FormLogin() {
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-        <LockOutlinedIcon />
+        <SportsTennisIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Sign in
+        Welcome To Teamnis
       </Typography>
       <Box onSubmit={handleSignInEmail} component="form" noValidate sx={{ mt: 1 }}>
         <TextField
@@ -131,22 +117,21 @@ export default function FormLogin() {
         >
           { loginning ? 'Submitting' : 'Sign In' }
         </Button>
-        <Button disabled={loginning} onClick={handleSignInGoogle}>
-          Sign In with Google
+        <Button fullWidth variant="outlined" disabled={loginning} onClick={handleSignInGoogle}>
+          <img style={{ marginRight: 8 }} width="24px" src="./googleIcon.svg" /> Sign In with Google
         </Button>
-        <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="#" variant="body2">
+        <Grid container mt={2}>
+        <Grid item xs>
+            <Link href="/sign-up" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
           </Grid>
+          <Grid item>
+            <Link href="/forgot-password" variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
         </Grid>
-        <Copyright sx={{ mt: 5 }} />
       </Box>
     </Box>
   )

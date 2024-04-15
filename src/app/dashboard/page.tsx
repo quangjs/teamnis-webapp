@@ -1,7 +1,13 @@
 import { redirect } from "next/navigation";
 import { getSession, destroySession } from "@/utils/authHelpers";
+import type { Metadata } from 'next';
 
-export default async function Dashboard() {
+export const metadata: Metadata = {
+  title: "Dasboard",
+  description: "Teamnis Dasboard",
+};
+
+export default async function Page() {
   const session = await getSession();
 
   return (
